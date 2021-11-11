@@ -48,8 +48,9 @@ public:
 
         std::vector<string> hashes;
 
-        for(auto t : transactions){
-            hashes.push_back(hash.generateHash(t.transactionID));
+        for (int i = 0; i < transactions.size(); i++){
+            
+            hashes.push_back(hash.generateHash(transactions[i].transactionID));
         }
 
         merkleHash = CreateMarkle(hashes);

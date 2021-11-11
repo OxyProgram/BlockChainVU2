@@ -67,7 +67,7 @@ std::string currentDateTime() {
 
 int findIndex(const vector<User> &arr, string key) {
 
-    for (auto i = 0; i < arr.size(); ++i) {
+    for (int i = 0; i < arr.size(); ++i) {
         if (arr[i].PublicKey == key)
             return i;
     }
@@ -133,12 +133,13 @@ int main(){
 
         Block newBlock;
 
-        for(auto candidate : candidates){
-            candidate.Mine();
+        
+        for (int i = 0; i < candidates.size(); i++){
+            candidates[i].Mine();
 
-            for(auto c : candidates){
-                if(c.mined){
-                    newBlock = c;
+            for(int j = 0; j < candidates.size(); j++){
+                if(candidates[j].mined){
+                    newBlock = candidates[j];
                     break;
                 }
             }
@@ -151,30 +152,31 @@ int main(){
             std::vector<string> general;
             std::vector<string> invalid;
 
-            for(auto t : transactions) {
-                int sender = findIndex(users, t.from);
-                int receiver = findIndex(users, t.to);
+            
+            for(int i = 0; i < transactions.size(); i++) {
+                int sender = findIndex(users, transactions[i].from);
+                int receiver = findIndex(users, transactions[i].to);
 
-                if(hash.generateHash(t.from + t.to + std::to_string(t.Amount)) == t.transactionID && users[sender].Balance >= t.Amount){
+                if(hash.generateHash(transactions[i].from + transactions[i].to + std::to_string(transactions[i].Amount)) == transactions[i].transactionID && users[sender].Balance >= transactions[i].Amount){
                     bool transacted = false;
 
-                    if(users[sender].Balance >= t.Amount){
+                    if(users[sender].Balance >= transactions[i].Amount){
                         transacted = true;
-                        users[receiver].Balance += t.Amount;
-                        users[sender].Balance -= t.Amount;
+                        users[receiver].Balance += transactions[i].Amount;
+                        users[sender].Balance -= transactions[i].Amount;
                     }
 
                     if(transacted){
-                        transactionsFile << "#" << transactionCount << " Sender: " << users[sender].PublicKey << " Receiver: " << users[receiver].PublicKey << " Amount: " << t.Amount << endl;
+                        transactionsFile << "#" << transactionCount << " Sender: " << users[sender].PublicKey << " Receiver: " << users[receiver].PublicKey << " Amount: " << transactions[i].Amount << endl;
                         transactionCount++;
 
                     }
 
                 }
                 else {
-                    invalid.push_back(t.transactionID);
+                    invalid.push_back(transactions[i].transactionID);
                 }
-                general.push_back(t.transactionID);
+                general.push_back(transactions[i].transactionID);
             }
 
             deleteValues(transactions, general);

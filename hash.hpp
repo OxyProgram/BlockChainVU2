@@ -7,7 +7,7 @@
 #include <cmath>
 #include <limits>
 #include <iomanip>
-#include <bits/stdc++.h>
+#include <bit>
 
 using namespace std;
 
@@ -189,16 +189,16 @@ string convertToString(uint32_t h[]) {
 }
 
 uint32_t operation1(uint32_t input) {
-    uint32_t a = _rotr(input, 7);
+    uint32_t a = __rotr(input, 7);
     uint32_t b = input >> 2;
-    uint32_t c = _rotr(input, 5);
+    uint32_t c = __rotr(input, 5);
 
     return a^b^c;
 }
 uint32_t operation2(uint32_t input) {
     uint32_t a = input >> 7;
-    uint32_t b = _rotr(input, 20);
-    uint32_t c = _rotr(input, 17);
+    uint32_t b = __rotr(input, 20);
+    uint32_t c = __rotr(input, 17);
 
     return a^b^c;
 }
